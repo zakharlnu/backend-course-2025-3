@@ -16,6 +16,8 @@ program
   .option("-i, --input <file>", "Path to the input JSON file")
   .option("-o, --output <file>", "Path to the output file")
   .option("-d, --display", "Display results")
+  .option("-f, –furnished", "Display only furnished houses")
+  .option("-p, --price <value>", "Display only houses with price less than the specified value")
   .parse();
 
 const opts = program.opts();
@@ -25,13 +27,22 @@ if (!opts.input) {
   process.exit(1);
 }
 
-const data = readJsonFile(opts.input);
+let data = readJsonFile(opts.input);
+
+if (opts.furnished) {
+  data = data.filter((house) => house.furnishingstatus === "furnished");
+}
+
+if (opts.price) {
+  data = data.filter((house) => house.price < parseFloat(opts.price));
+}
 
 if (opts.output) {
   fs.writeFileSync(opts.output, JSON.stringify(data), {encoding: "utf-8"});
 }
 
 if (opts.display) {
-  console.log(data);
+  data.forEach((house) => {
+    console.log(`${house.price} ${house.area}`);
+  });
 }
-
