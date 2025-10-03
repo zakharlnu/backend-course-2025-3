@@ -38,7 +38,11 @@ if (opts.price) {
 }
 
 if (opts.output) {
-  fs.writeFileSync(opts.output, JSON.stringify(data), {encoding: "utf-8"});
+  let output = "";
+  data.forEach((house) => {
+    output += `${house.price} ${house.area}\n`;
+  });
+  fs.writeFileSync(opts.output, output, {encoding: "utf-8"});
 }
 
 if (opts.display) {
