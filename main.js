@@ -37,8 +37,9 @@ if (opts.price) {
   data = data.filter((house) => house.price < parseFloat(opts.price));
 }
 
+let output = "";
+
 if (opts.output) {
-  let output = "";
   data.forEach((house) => {
     output += `${house.price} ${house.area}\n`;
   });
@@ -46,7 +47,5 @@ if (opts.output) {
 }
 
 if (opts.display) {
-  data.forEach((house) => {
-    console.log(`${house.price} ${house.area}`);
-  });
+  console.log(output);
 }
